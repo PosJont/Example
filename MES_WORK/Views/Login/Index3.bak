@@ -1,0 +1,58 @@
+﻿@{
+Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
+    <script src="~/Scripts/jquery-2.2.1.min.js"></script>
+    <link rel="stylesheet" href="css/login.css" />
+    <script src="~/Scripts/e4d5cd4364.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/Content/login.css" />
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="bg">
+            <div class="e_name">
+                <h1>@ViewBag.prj_name</h1>
+            </div>
+            <div class="logo">
+                <img src="/Content/img/logo.svg">
+            </div>
+            <h2>@ViewBag.com_name</h2>
+        </div>
+        <div class="content">
+            <div class="login">
+                <form action="@Url.Action()" method="post">
+                    <h2>Hello !</h2>
+                    <div class="input_div">
+                        <div class="icon">
+                            <img src="/Content/img/user.svg" alt="使用者icon">
+                        </div>
+                        <div class="type">
+                            <input type="text" class="input" name="usr_code" id="" placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="input_div pass">
+                        <div class="icon">
+                            <img src="/Content/img/pass.svg" alt="密碼icon">
+                        </div>
+                        <div class="type">
+                            <input type="password" class="input" name="usr_pass" id="" placeholder="Password">
+                        </div>
+                    </div>
+                    <p class="erro-info" style="color:red;">@ViewBag.message</p>
+                    <input type="submit" class="btn" value="LOGIN">
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/assets/js/login.js"></script>
+</body>
+
+</html> 

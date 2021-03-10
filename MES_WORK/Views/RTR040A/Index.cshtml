@@ -1,0 +1,425 @@
+﻿@using MES_WORK.Controllers;
+@using MES_WORK.Models;
+@using System.Data;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //只修改Controller
+    RTR040AController CT = new RTR040AController();
+
+    GetModelValidation gmv = new GetModelValidation();
+    Comm comm = new Comm();
+    GetData GD = new GetData();
+    DynamicTable DT = new DynamicTable();
+
+    string sPrgCode = ViewContext.RouteData.Values["controller"].ToString();
+    string sAction = ViewContext.RouteData.Values["action"].ToString();
+
+    string sMacCode = Request.Cookies["MacCode"].Value;
+
+
+    DataTable Get_Table = CT.Get_StopCode();
+    //除外工時數量
+    int DCnt = Get_Table.Rows.Count;
+    //欄位數量
+    int FCnt = 3;
+}
+
+<form id="ajax-contact-form" action="@Url.Action()" method="post" class="form-horizontal" role="form">
+    <div id="navigation" class="container col-12 content">
+        <div class="col-12" style="padding-bottom: 15px;padding-top:15px; ">
+            <div class="reasons mb-4">
+                <div class="tab_name">
+                    <input type="button" class="tab_button underline" onclick="openTab('content_1')" value="停機原因">
+                </div>
+                <div class="tab_content">
+                    <div id="content_1" class="contents">
+                        @for (int i = 0; i < DCnt / FCnt; i++)
+                        {
+                            for (int u = 0; u < FCnt; u++)
+                            {
+                                string sStopCode = Get_Table.Rows[i * FCnt + u]["stop_code"].ToString();
+                                string sStopName = comm.Left(comm.Get_Data("MEB45_0000", sStopCode, "stop_code", "stop_name"), 20);
+                                <button id="@sStopCode" type="button" name="btn_select" value="@sStopCode" class="contents_button">
+                                    @sStopName
+                                </button>
+                            }
+
+                        }
+
+                        @for (int i = 0; i < DCnt % FCnt; i++)
+                        {
+                            string sStopCode = Get_Table.Rows[(DCnt / FCnt * FCnt) + i]["stop_code"].ToString();
+                            string sStopName = comm.Left(comm.Get_Data("MEB45_0000", sStopCode, "stop_code", "stop_name"), 20);
+                            <button id="@sStopCode" type="button" name="btn_select" value="@sStopCode" class="contents_button">
+                                @sStopName
+                            </button>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <div class="content_body">
+                <div class="content_input">
+                    @{
+                        try
+                        {
+                            int temp = 0010;
+                            int i = 0, round = 0;
+
+                            while (round <= ViewBag.Tabel.Rows.Count - 1)
+                            {
+                                if (int.Parse(ViewBag.Tabel.Rows[i]["scr_no"].ToString()) == temp)
+                                {
+                                    <div class="content_input mb-3 d-flex flex-nowrap justify-content-center">
+                                        <label class="mr-3">@ViewBag.Tabel.Rows[i]["field_name"].ToString()</label>
+                                        <input class="mr-3" type="text" id="@ViewBag.Tabel.Rows[i]["field_code"].ToString()"
+                                               name="@ViewBag.Tabel.Rows[i]["field_code"].ToString()"
+                                               value="@ViewData[ViewBag.Tabel.Rows[i]["field_code"].ToString()]"
+                                               placeholder='請輸入 @ViewBag.Tabel.Rows[i]["field_name"].ToString()'>
+                                    </div>
+                                    temp += 10; ++round; i = 0;
+                                }
+                                else { i++; }
+                            }
+                        }
+                        catch { }
+                    }
+                </div>
+            </div>
+            <div style='clear:both;'></div>
+            <div id="div_timer" class="col-12 timming" style="display:none">
+                <label style="font-size:18px">停機時間:</label>
+                <label id="timer" style="font-size:18px"></label>
+            </div>
+
+
+            <div style='clear:both;' class="line1"></div>
+            <div class="confirm_buttons">
+                <button id="btn_start" name="submit" value="btn_start" type="button" class="submit inpu ts">
+                    停機開始
+                </button>
+                <button id="btn_end" name="submit" value="btn_end" type="button" class="submit inpu ts" style="display:none">
+                    停機結束
+                </button>
+
+                <a href="@Url.Action("Index", "Main")">
+                    <input class="submit inpu tb" type="button" name="b_submit" value="返回" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="alert_div" class="message error" style="margin-top:25px;">
+        <label class="" id="" style="font-size:30px" color:#3968af;">
+            訊息:
+        </label>
+        <label id="message" style="font-size:30px">
+
+        </label>
+    </div>
+</form>
+
+@section footer_script{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //若該機台目前已開始停機
+            //則鎖定停機原因並開始停機
+            if (Get_OnStopData("stop_code") != '') {
+                $('#' + Get_OnStopData("stop_code")).click()
+                Stop_Mode()
+            }
+
+        })
+
+        //選擇按鍵(單選)
+        $(document).on('click', '[name=btn_select]', function () {
+            $('[name=btn_select]').each(function () {
+                $(this).removeClass()
+                $(this).addClass("contents_button")
+            })
+            $(this).removeClass("submit")
+            $(this).addClass("clickactive")
+        })
+
+
+        //開始
+        $(document).on('click', '#btn_start', function () {
+           // if ('@*(string.IsNullOrEmpty(sMacCode))*@' == 'True') {
+           //    $('#message').html('請先變更機台')
+           //     return false
+           // }
+            if ($('.clickactive').length == 0) {
+                $('#message').html('請選擇停機原因')
+                return false
+            }
+            //切換成停機模式
+            Stop_Start($('.clickactive').val())
+            Stop_Mode()
+        })
+
+        //結束
+        $(document).on('click', '#btn_end', function () {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("Stop_End")',
+                data: {
+                    "usr_code": function () { return $('[name=usr_code]').val(); },
+                },
+            })
+            //結束跳回主選單
+            window.location.href = '@Url.Action("Index", "Main")'
+        })
+
+
+
+
+        //計時器
+        setInterval(function () { Get_Timer($('[name=usr_code]').val()) }, 1000)
+
+
+        //停機模式
+        function Stop_Mode() {
+            $('#btn_start').hide()
+            $('#btn_end').show()
+            $('input').attr('readonly', 'readonly')
+            $('[name=btn_select]').attr('disabled', 'disabled')
+            $('#div_timer').show()
+        }
+
+
+        function Stop_Start(select) {
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("Stop_Start")',
+                data: {
+                    "stop_code": function () { return select; },
+                    "user_field_01": function () { return $('#user_field_01').val(); },
+                    "user_field_02": function () { return $('#user_field_02').val(); },
+                    "user_field_03": function () { return $('#user_field_03').val(); },
+                    "user_field_04": function () { return $('#user_field_04').val(); },
+                    "user_field_05": function () { return $('#user_field_05').val(); },
+                    "user_field_06": function () { return $('#user_field_06').val(); },
+                    "user_field_07": function () { return $('#user_field_07').val(); },
+                    "user_field_08": function () { return $('#user_field_08').val(); },
+                    "user_field_09": function () { return $('#user_field_09').val(); },
+                    "user_field_10": function () { return $('#user_field_10').val(); },
+                },
+            })
+        }
+
+
+        //取得停機時間
+        function Get_Timer() {
+            var val = ""
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("Get_Timer")',
+                data: {
+                },
+                success: function (data) {
+                    if (data != "") {
+                        $('#timer').html(data)
+                    }
+                }
+            })
+            return val
+        }
+
+        //取得停機資料
+        function Get_OnStopData(show_field) {
+            var val = ""
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("Get_OnStopData")',
+                data: {
+                    pShowField: function () { return show_field; },
+                },
+                success: function (data) {
+                    if (data != "") {
+                       val = data
+                    }
+                }
+            })
+            return val
+        }
+
+
+
+        //$(document).on('click', '[name=bt_submit]', function () {
+        //    var checkresult = ""
+        //    $('.btn-success').each(function () {
+        //        var val = $(this).val()
+        //        if (checkresult != "") { checkresult = checkresult + "," }
+        //        checkresult = checkresult + val
+        //    })
+        //    $('[name=check_result]').val(checkresult)
+        //})
+
+
+        //$(document).on('click', '[name=btn_check]', function () {
+        //    if ($(this).hasClass('btn-primary')) {
+        //        $(this).removeClass('btn-primary')
+        //        $(this).addClass('btn-success')
+        //    } else {
+        //        $(this).removeClass('btn-success')
+        //        $(this).addClass('btn-primary')
+        //    }
+        //})
+
+
+        ////點擊儲存觸發檢查事件
+        //$(document).on('click', '[name=bt_submit]', function () {
+        //    var submit = true
+        //    $('.check').each(function () {
+        //        if (!Chk_Data($(this).attr('id'), $(this).val)) {
+        //            submit = false
+        //        }
+        //    })
+        //    if (!submit) { return false }
+        //    if (!confirm("是否確定要儲存")) { return false }
+        //})
+
+
+        @*$(document).on('change', 'input', function () {
+            var val = $(this).val()
+            var name = $(this).attr('name')
+
+            //檢查資料
+            if (!Chk_Data($(this).attr('id'), val)) {
+                $(this).select()
+                return false
+            }
+            $('.' + name + '_auto').each(function () {
+                var field = $(this).attr('name')
+                var id = $(this).attr('id')
+                var data_from_table = Get_Data('@pubFieldTable', id, '@pubPKCode', 'data_from_table');//資料來自資料表
+                $(this).val(Get_Data(data_from_table, val, name, field))
+                var enter_id = $('.enterIndex').index($(this))
+                $('.enterIndex').eq(enter_id + 1).focus()
+                $(this).change()
+            })
+        })*@
+
+
+                function Get_Data(T, K, KF, F) {
+                    var val = ""
+                    $.ajax({
+                        method: 'post',
+                        async: false,
+                        url: '@Url.Action("Get_Data", "GetData")',
+                        data: {
+                            T: function () { return T; },
+                            K: function () { return K; },
+                            KF: function () { return KF; },
+                            F: function () { return F; },
+                        },
+                        success: function (data) {
+                            if (data != "") {
+                                val = data
+                            }
+                        }
+                    })
+                    return val
+                }
+
+                @*function Chk_Data(id, value) {
+            var bool
+            $.ajax({
+                method: 'post',
+                async: false,
+                url: '@Url.Action("Chk_Data")',
+                data: {
+                    Id: function () { return id; },
+                    Value: function () { return value; },
+                },
+                success: function (data) {
+                    if (data != '') {
+                        $('#alert_label').html(data)
+                        bool = false
+                    }
+                    else {
+                        //$('#alert_label').html('')
+                        bool = true
+                    }
+                }
+            })
+            return bool
+        }*@
+
+
+                @*//目前停機總時間
+        setInterval(function () {
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: '@Url.Action("Get_OnStopTime", "GetData")',
+                data: {
+                    pTable: function () { return '@Table'; },
+                },
+                success: function (data) {
+                    $('#label_stop').html(data)
+                },
+            });
+        }, 1000)
+
+
+        function StopMode(OnStopArray) {
+            for (let i = 0; i < OnStopArray.split(",").length; i++) {
+                var sOnStop = OnStopArray.split(",")[i]
+                $('[name=btn_check]').each(function () {
+                    if ($(this).val() == sOnStop) {
+                        $(this).removeClass('btn-primary')
+                        $(this).addClass('btn-success')
+                    }
+                })
+            }
+            $('input').attr('readonly', 'readonly')
+            $('[name=btn_check]').attr('disabled', 'disabled')
+            $('#div_stop').removeAttr('style')
+            $('#start').attr('style', 'display:none')
+            $('#end').show()
+        }
+
+
+        $(document).ready(function () {
+            $('input').addClass('enterIndex');
+            // get only input tags with class data-entry
+            textboxes = $('.enterIndex');
+            // now we check to see which browser is being used
+            $(textboxes).bind('keypress', CheckForEnter);
+        });
+        function CheckForEnter(event) {
+            if (event.keyCode == 13 && $(this).attr('type') != 'button' && $(this).attr('type') != 'submit' && $(this).attr('type') != 'textarea' && $(this).attr('type') != 'reset') {
+                var i = $('.enterIndex').index($(this));  //現在是在第幾個
+                var n = $('.enterIndex').length;  //總共有幾個
+                if (i < n - 1) {
+                    if ($(this).attr('type') != 'radio')  //如果不是radio
+                    {
+                        NextDOM($('.enterIndex'), i);
+                    }
+                    else {  //如果是radio，不能focus到下一個，因為下一個可能是同樣name的radio
+                        var last_radio = $('.enterIndex').index($('.enterIndex[type=radio][name=' + $(this).attr('name') + ']:last'));
+                        NextDOM($('.enterIndex'), last_radio);
+                    }
+                }
+                return false;
+            }
+        }
+        function NextDOM(myjQueryObjects, counter) {
+            if (myjQueryObjects.eq(counter + 1)[0].disabled) {
+                NextDOM(myjQueryObjects, counter + 1);
+            }
+            else {
+                myjQueryObjects.eq(counter + 1).trigger('focus');
+            }
+        }*@
+
+
+    </script>
+}

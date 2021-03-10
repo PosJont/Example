@@ -1,0 +1,591 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Microsoft JhengHei';
+    overflow: hidden;
+}
+
+.wrap {
+    display: flex;
+    height: 100vh;
+}
+
+.bg {
+    width: 50%;
+    background-image: url(images/bg/1920x1080/bg.svg);
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.e_name {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+    .e_name h1 {
+        font-size: 78px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.8);
+        writing-mode: vertical-lr;
+        margin-left: 70px;
+    }
+
+.logo {
+    width: 45%;
+    position: absolute;
+    bottom: 250px;
+}
+
+    .logo img {
+        width: 100%;
+    }
+
+.bg h2 {
+    position: absolute;
+    bottom: 210px;
+    font-size: 42px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.logo,
+.bg h2 {
+    left: 300px;
+}
+
+.content {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login {
+    display: flex;
+    text-align: center;
+}
+
+    .login h2 {
+        font-size: 122px;
+        font-weight: 500;
+        color: #269aff;
+        margin-bottom: 30px;
+    }
+
+.input_div {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    margin-bottom: 45px;
+    padding: 6px 12px;
+    background: #f2f2f2;
+    border-radius: 15px;
+    width: 514px;
+    height: 84px;
+}
+
+.focus {
+    background: #e6e6e6;
+}
+
+.input_div div {
+    position: relative;
+}
+
+.icon {
+    margin: auto;
+    transition: 0.3s;
+}
+
+.type input {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 30px;
+    color: #333;
+}
+
+.btn {
+    font-size: 40px;
+    color: #fff;
+    display: block;
+    width: 100%;
+    height: 100px;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    background: #269aff;
+    color: #fff;
+    margin: auto;
+    margin-top: 30px;
+    transition: 0.5s;
+}
+
+    .btn:hover {
+        /*box-shadow: 0 15px #0f225f;*/
+        background: #71B7F3;
+        cursor: pointer;
+    }
+
+@media (max-width: 1680px) {
+    .bg {
+        background-image: url(images/bg/1680x1050/bg.svg);
+    }
+
+        .bg h2,
+        .btn {
+            font-size: 38px;
+        }
+}
+
+@media (max-width: 1600px) {
+    .bg {
+        background-image: url(images/bg/1600x900/bg.svg);
+    }
+
+    .e_name h1 {
+        font-size: 70px;
+        margin-left: 60px;
+    }
+
+    .logo {
+        bottom: 200px;
+    }
+
+    .bg h2,
+    .btn {
+        bottom: 160px;
+        font-size: 36px;
+    }
+
+    .logo,
+    .bg h2 {
+        left: 300px;
+    }
+}
+
+@media (max-width: 1440px) {
+    .bg {
+        background-image: url(images/bg/1440x900/bg.svg);
+    }
+
+        .bg h2,
+        .btn {
+            font-size: 32px;
+        }
+
+        .logo,
+        .bg h2 {
+            left: 250px;
+        }
+
+    .login h2 {
+        font-size: 110px;
+    }
+
+    .input_div {
+        width: 500px;
+        height: 80px;
+    }
+
+    .btn {
+        height: 96px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .bg {
+        background-image: url(images/bg/1400x1050/bg.svg);
+    }
+
+    .e_name h1 {
+        font-size: 80px;
+    }
+
+    .logo {
+        width: 50%;
+    }
+
+    .bg h2,
+    .btn {
+        font-size: 34px;
+        bottom: 210px;
+    }
+
+    .logo {
+        bottom: 250px;
+    }
+}
+
+@media (max-width: 1366px) {
+    .bg {
+        background-image: url(images/bg/1366x768/bg.svg);
+    }
+
+    .e_name h1 {
+        font-size: 60px;
+    }
+
+    .logo {
+        width: 45%;
+    }
+
+    .bg h2,
+    .btn {
+        font-size: 30px;
+        bottom: 160px;
+    }
+
+    .logo {
+        bottom: 200px;
+    }
+
+    .login h2 {
+        font-size: 90px;
+    }
+
+    .input_div {
+        width: 450px;
+        height: 70px;
+    }
+
+    .btn {
+        height: 86px;
+    }
+}
+
+@media (max-width: 1280px) and (max-height: 1024px) {
+    .bg {
+        background-image: url(images/bg/1280x1024/bg.svg);
+    }
+
+    .e_name h1 {
+        font-size: 78px;
+        margin-left: 50px;
+    }
+
+    .logo {
+        width: 55%;
+    }
+
+    .bg h2,
+    .btn {
+        font-size: 34px;
+        bottom: 210px;
+    }
+
+    .logo {
+        bottom: 250px;
+    }
+
+    .login h2 {
+        font-size: 90px;
+    }
+}
+
+@media (max-width: 1280px) and (max-height: 800px) {
+    .bg {
+        background-image: url(images/bg/1280x800/bg.svg);
+    }
+
+    .e_name h1 {
+        font-size: 60px;
+    }
+
+    .logo {
+        width: 45%;
+    }
+
+    .bg h2,
+    .btn {
+        font-size: 30px;
+        bottom: 160px;
+    }
+
+    .logo {
+        bottom: 200px;
+    }
+
+    .logo,
+    .bg h2 {
+        left: 200px;
+    }
+
+    .login h2 {
+        font-size: 85px;
+    }
+
+    .input_div {
+        width: 400px;
+        height: 60px;
+    }
+
+    .icon img {
+        width: 80%;
+    }
+
+    .type input {
+        font-size: 26px;
+    }
+
+    .btn {
+        height: 76px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .bg {
+        background-image: url(images/bg/1024x768/bg.svg);
+    }
+
+    .e_name h1 {
+        font-size: 56px;
+        margin-left: 40px;
+    }
+
+    .logo {
+        width: 50%;
+    }
+
+    .bg h2,
+    .btn {
+        font-size: 26px;
+    }
+
+    .logo,
+    .bg h2 {
+        left: 150px;
+    }
+
+    .login h2 {
+        font-size: 80px;
+    }
+
+    .input_div {
+        width: 380px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrap {
+        display: block;
+    }
+
+    .bg {
+        background-image: url(images/bg/768x1024/bg.svg);
+    }
+
+    .bg,
+    .content {
+        width: 100%;
+        height: 50%;
+    }
+
+    .login h2 {
+        display: none;
+    }
+
+    .e_name {
+        display: block;
+        position: absolute;
+        left: 220px;
+        top: 260px;
+    }
+
+        .e_name h1,
+        .bg h2 {
+            font-size: 28px;
+        }
+
+        .e_name h1 {
+            writing-mode: unset;
+            color: #fff;
+            margin-left: 0;
+        }
+
+    .bg h2 {
+        left: 320px;
+        bottom: 170px;
+    }
+
+    .logo {
+        width: 55%;
+        left: 210px;
+    }
+
+    .content {
+        align-items: flex-start;
+    }
+
+    .input_div {
+        width: 514px;
+        height: 84px;
+    }
+
+    .btn {
+        font-size: 40px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 414px) {
+    .bg {
+        background-image: url(images/bg/414x736/bg.svg);
+    }
+
+    .e_name {
+        left: 100px;
+        top: 180px;
+    }
+
+        .e_name h1,
+        .bg h2 {
+            font-size: 18px;
+        }
+
+    .bg h2 {
+        left: 160px;
+        bottom: 135px;
+    }
+
+    .logo {
+        width: 60%;
+        top: 100px;
+        left: 110px;
+    }
+
+    .input_div {
+        width: 300px;
+        height: 54px;
+        margin-bottom: 40px;
+    }
+
+    .type input {
+        font-size: 22px;
+        padding-left: 10px;
+    }
+
+    .btn {
+        font-size: 26px;
+        height: 65px;
+        margin-top: 60px;
+    }
+}
+
+@media (max-width: 375px) and (max-height: 812px) {
+    .bg {
+        background-image: url(images/bg/375x812/bg.svg);
+    }
+
+    .e_name {
+        left: 80px;
+        top: 200px;
+    }
+
+    .bg h2 {
+        left: 145px;
+        bottom: 150px;
+    }
+
+    .logo {
+        width: 70%;
+        bottom: 150px;
+        left: 80px;
+    }
+
+    .icon img {
+        width: 80%;
+    }
+}
+
+@media (max-width: 375px) and (max-height: 667px) {
+    .bg {
+        background-image: url(images/bg/375x667/bg.svg);
+    }
+
+    .e_name {
+        top: 170px;
+    }
+
+    .bg h2 {
+        bottom: 110px;
+    }
+}
+
+@media (max-width: 360px) {
+    .bg {
+        background-image: url(images/bg/360x640/bg.svg);
+    }
+
+    .e_name {
+        left: 70px;
+        top: 140px;
+    }
+
+        .e_name h1,
+        .bg h2 {
+            font-size: 18px;
+        }
+
+    .bg h2 {
+        left: 135px;
+        bottom: 125px;
+    }
+
+    .logo {
+        width: 70%;
+        top: 50px;
+        left: 80px;
+    }
+
+    .input_div {
+        width: 260px;
+    }
+}
+
+@media (max-width: 320px) {
+    .bg {
+        background-image: url(images/bg/320x568/bg.svg);
+    }
+
+    .e_name {
+        top: 120px;
+    }
+
+        .e_name h1,
+        .bg h2 {
+            font-size: 16px;
+        }
+
+    .bg h2 {
+        left: 130px;
+        bottom: 120px;
+    }
+
+    .logo {
+        left: 70px;
+        bottom: 60px;
+    }
+
+    .input_div {
+        width: 240px;
+        margin-bottom: 20px;
+    }
+
+    .icon img {
+        width: 75%;
+    }
+
+    .btn {
+        font-size: 24px;
+        height: 65px;
+        margin-top: 35px;
+    }
+}

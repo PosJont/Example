@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="768" height="1024" viewBox="0 0 768 1024">
+  <defs>
+    <clipPath id="clip-iPad_1">
+      <rect width="768" height="1024"/>
+    </clipPath>
+  </defs>
+  <g id="iPad_1" data-name="iPad – 1" clip-path="url(#clip-iPad_1)">
+    <rect width="768" height="1024" fill="#fff"/>
+    <g id="Group_29" data-name="Group 29" transform="translate(-1791.194 -20.825)">
+      <rect id="Rectangle_16" data-name="Rectangle 16" width="777.32" height="780.73" rx="133.891" transform="translate(2986.184 86.393) rotate(147.175)" fill="#020433"/>
+      <rect id="Rectangle_17" data-name="Rectangle 17" width="777.32" height="780.73" rx="133.891" transform="matrix(-0.733, 0.68, -0.68, -0.733, 2955.568, -34.561)" fill="#0f225f"/>
+      <path id="Path_52" data-name="Path 52" d="M1828.195-34.78l378.644-500.491a74.927,74.927,0,0,1,105.174-14.253L2813.5-168.314a75.344,75.344,0,0,1,14.679,105.361L2449.532,437.538a74.927,74.927,0,0,1-105.173,14.254L1842.874,70.582A75.345,75.345,0,0,1,1828.195-34.78Z" fill="#224b9d"/>
+      <path id="Path_53" data-name="Path 53" d="M1755.927,79.737,2041.711-479.61A74.782,74.782,0,0,1,2142.7-511.971l559.353,288.536a75.488,75.488,0,0,1,32.691,101.32L2448.963,437.231a74.784,74.784,0,0,1-100.992,32.362L1788.618,181.057A75.488,75.488,0,0,1,1755.927,79.737Z" fill="#316bcb"/>
+      <path id="Path_54" data-name="Path 54" d="M1705.521,204.547l184.352-601.123a74.738,74.738,0,0,1,93.766-49.489l600.31,186.981a75.533,75.533,0,0,1,49.706,94.177L2449.3,436.216a74.738,74.738,0,0,1-93.766,49.489l-600.31-186.981A75.533,75.533,0,0,1,1705.521,204.547Z" fill="#269aff"/>
+      <rect id="Rectangle_18" data-name="Rectangle 18" width="515.714" height="606.411" transform="translate(2555.47 0.135) rotate(90)" fill="none"/>
+    </g>
+  </g>
+</svg>

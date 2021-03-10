@@ -1,0 +1,101 @@
+﻿@using System;
+@using System.Configuration;
+@using MES_WORK.Models;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string sPrgCode = ViewBag.PrgCode.ToString(); //ConfigurationManager.AppSettings["PrgCodeList"];
+    Comm comm = new Comm();
+    Work iWork = new Work();
+    string sMacCode = iWork.Get_MacCodeByMacAddress();
+
+}
+<div class="function d-flex flex-wrap">
+    @{
+
+        foreach (string sPrg_Code in sPrgCode.Split('|'))
+        {
+            string sIcon = "";
+            switch (sPrg_Code)
+            {
+                case "RTR000A": sIcon = "fas fa-window-restore"; break;
+                case "RTR010A": sIcon = "fas fa-users"; break;
+                case "RTR020A": sIcon = "fas fa-id-card"; break;
+                case "RTR020B": sIcon = "fas fa-battery-quarter"; break;
+                case "RTR090A": sIcon = "fas fa-list-alt"; break;
+                case "RTR080A": sIcon = "fas fa-times-circle"; break;
+                case "RTR040A": sIcon = "fas fa-exclamation-triangle"; break;
+                case "RTR050A": sIcon = "fas fa-coffee"; break;
+                case "RTR060A": sIcon = "fas fa-sign-in-alt"; break;
+                case "RTR070A": sIcon = "fas fa-sign-out-alt"; break;
+                //case "RTR010A": PageName = "調配作業"; sIcon = "fas fa-sign-out-alt"; break;
+                case "RTR090B": sIcon = "fas fa-battery-quarter"; break;
+                case "Setting": sIcon = "fas fa-cogs"; break;
+            }
+            if (sIcon != "")
+            {
+                <div class="col-xl-3">
+                    <a href="/@sPrg_Code">
+                        <div class="function_box">
+                            <i class="@sIcon"></i>
+                            <div class="mt-3">
+                                @comm.Get_QueryData("BDP04_0000", sPrg_Code, "prg_code", "prg_name")
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                sIcon = "";
+            }
+        }
+    }
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (Get_OnData("stop_code") != '') {
+            $('#stop').text ("停機中")
+        }
+        else {
+            $('#stop').text("停機原因")
+        }
+        if (Get_OnData("except_code") != '') {
+            $('#except').text("除外工時中")
+        }
+        else {
+            $('#except').text("除外工時")
+        }
+    })
+    jQuery(function ($) {
+        $(document).ready(function () {
+
+        })
+
+        $('li').click(function () {
+            var id = $(this).attr('id')
+            $(this).find('a').attr('href', '/' + id)
+        })
+
+
+    })
+    //確認除外工時與停機原因狀態
+    function Get_OnData(show_field) {
+        var val = ""
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '@Url.Action("Get_OnData")',
+            data: {
+                pShowField: function () { return show_field; },
+            },
+            success: function (data) {
+                if (data != "") {
+                    val = data
+                }
+            }
+        })
+        return val
+    }
+</script>

@@ -1,0 +1,124 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="~/Scripts/e4d5cd4364.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-image: url("/Content/loginBg.svg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        h1,
+        p,
+        button {
+            font-family: 微軟正黑體;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 50px;
+        }
+
+        p {
+            color: white;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .main {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 30%;
+            margin: 8% auto;
+            padding: 2% 0 5% 0;
+            -webkit-filter: drop-shadow(12px 12px 10px rgba(0, 0, 0, 0.7));
+            filter: drop-shadow(12px 12px 10px rgba(0, 0, 0, 0.7));
+        }
+
+        .door {
+            margin-top: 80px;
+        }
+
+
+
+        input {
+            background-color: rgba(255, 255, 255, 0);
+            color: #fff;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid rgb(210, 221, 241);
+            width: 60%;
+            display: block;
+            margin: auto;
+            font-size: 20px;
+            font-family: 'FontAwesome', 微軟正黑體;
+        }
+
+        ::placeholder {
+            /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: rgb(210, 221, 241);
+        }
+
+        :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: rgb(210, 221, 241);
+        }
+
+        ::-ms-input-placeholder {
+            /* Microsoft Edge */
+            color: rgb(210, 221, 241);
+        }
+
+        .bot {
+            margin-bottom: 50px;
+        }
+
+        button {
+            margin: auto;
+            text-align: center;
+            border-radius: 50px;
+            display: block;
+            background-color: #F29730;
+            border: none;
+            outline: none;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px 100px;
+            line-height: 2;
+        }
+
+            button:hover {
+                background-color: rgb(250, 107, 41);
+                /* -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));
+            filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)) */
+            }
+    </style>
+</head>
+
+<body>
+    <form class="main" action="@Url.Action()" method="post" role="form">
+        <h1>@ViewBag.prj_name</h1>
+        <p>@ViewBag.com_name</p>
+        <div class="door">
+            <div class="bot">
+                <input type="text" name="usr_code" placeholder="&#xf007;   User">
+            </div>
+            <div class="bot">
+                <input type="password" name="usr_pass" placeholder="&#xf023;   Password">
+            </div>
+            <p>@ViewBag.message</p>
+            <button type="submit">LOGIN</button>
+        </div>
+    </form>
+</body>
+
+</html>

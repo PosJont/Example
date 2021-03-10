@@ -1,0 +1,69 @@
+﻿@using MES_WORK.Controllers;
+@using MES_WORK.Models;
+@using System.Data;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //只修改Controller
+    SettingController myCT = new SettingController();
+
+    Comm comm = new Comm();
+
+    string sPrgCode = ViewContext.RouteData.Values["controller"].ToString();
+    string sAction = ViewContext.RouteData.Values["action"].ToString();
+}
+
+<form id="ajax-contact-form" action=@Url.Action(sAction, sPrgCode) method="post" class="form-horizontal" role="form">
+    <div id="navigation" class="container col-12 content">
+            <div class="content_body content_inner">
+                <p>顏色切換</p>
+                <div class="switch_content d-flex">
+                    <div class="sun">
+                        <div class="switch_img">
+                            <img src="~/images/lightsun18.svg" alt="light提示" id="sun_img">
+                        </div>
+                        <div class="switch_txt">LIGHT</div>
+                    </div>
+                    <label class="switch mr-1 ml-1">
+                        <input type="checkbox" id="switch_checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    <div class="moon">
+                        <div class="switch_img">
+                            <img src="~/images/lightmoon18.svg" alt="dark提示" id="moon_img">
+                            <div class="switch_txt">DARK</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="confirm_buttons">
+                    <a href="@Url.Action("Index", "Main")">
+                        <input class="submit inpu tb" type="button" name="bt_submit" value="返回" />
+                    </a>
+                </div>
+            </div>
+    </div>
+
+
+
+</form>
+
+@section footer_script{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#switch_checkbox').attr('checked', 'checked');
+
+        })
+        $("#switch_checkbox").prop("checked",true);
+        //提交檢查
+        $(document).on('submit', '#ajax-contact-form', function () {
+            var submit = true
+            $('input').each(function () {
+                if (!Chk_Input($(this).attr('id'), $(this).val())) { submit = false }
+            })
+            if (!Chk_Submit()) { submit = false }
+
+            if (!submit) { return false }
+        })
+
+    </script>
+}

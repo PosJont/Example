@@ -1,0 +1,461 @@
+﻿@using MES_WORK.Controllers;
+@using MES_WORK.Models;
+@using System.Data;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //只修改Controller
+    RTR080AController myCT = new RTR080AController();
+
+    Comm comm = new Comm();
+
+    string sPrgCode = ViewContext.RouteData.Values["controller"].ToString();
+    string sAction = ViewContext.RouteData.Values["action"].ToString();
+    string sMacCode = Request.Cookies["MacCode"].Value;
+
+    DataTable Get_Table = myCT.Get_ngCode();
+    //除外不良種類數量
+    int DCnt = Get_Table.Rows.Count;
+
+    int FCnt = DCnt;
+    //欄位數量
+    ViewBag.Tabel = comm.Get_DataTable(comm.Get_strSQL("MEB48_0000", "s", "table_code", "MED08_0000"));
+    string[] sValueName = { "wrk_code", "mac_code", "pro_name", "urs_code" };
+    string[] sValueTitle = { "派工單號", "機台代碼", "產品名稱", "人員名稱" };
+}
+<form id="ajax-contact-form" action=@Url.Action(sAction, sPrgCode) method="post" class="form-horizontal" role="form">
+    <div id="navigation" class="container col-12 content">
+        <div class="col-12">
+            <div class="content_body">
+                <div class="content_input">
+
+                    <div class="reasons mb-4">
+                        <div class="tab_name">
+                            <input type="button" class="tab_button underline" onclick="openTab('content_1')" value="不良現象">
+                        </div>
+                        <div class="tab_content">
+                            <div id="content_1" class="contents">
+                                @*@if (DCnt != 0)
+                                    {
+                                        for (int i = 0; i < DCnt / FCnt; i++)
+                                        {
+                                            for (int u = 0; u < FCnt; u++)
+                                            {
+                                                string sNgCode = Get_Table.Rows[i * FCnt + u]["ng_code"].ToString();
+                                                //string sNgName = comm.Left(comm.Get_Data("MEB37_0000", sNgCode, "ng_code", "ng_name"), 20);
+                                                string sNgName = Get_Table.Rows[i * FCnt + u]["ng_name"].ToString();
+                                                <button id="@sNgCode" type="button" name="btn_select" value="@sNgCode" class="inpu ts">
+                                                    @sNgName
+                                                </button>
+                                            }
+                                        }
+                                    }*@
+                                @if (DCnt >= 2)
+                                {
+                                    for (int i = 0; i < DCnt / FCnt; i++)
+                                    {
+                                        for (int u = 0; u < FCnt; u++)
+                                        {
+                                            string sNgCode = Get_Table.Rows[i * FCnt + u]["ng_code"].ToString();
+                                            //string sNgName = comm.Left(comm.Get_Data("MEB37_0000", sNgCode, "ng_code", "ng_name"), 20);
+                                            string sNgName = Get_Table.Rows[i * FCnt + u]["ng_name"].ToString();
+                                            <button id="@sNgCode" type="button" name="btn_select" value="@sNgCode" class="inpu ts">
+                                                @sNgName
+                                            </button>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 d-flex flex-nowrap justify-content-center">
+                        <label class="mr-3">不良數量</label>
+                        <input class="mr-3" type="text" id="pro_qty" name="pro_qty" placeholder="請輸入不良數量">
+                    </div>
+                    @{
+
+                        for (int i = 0; i < sValueName.Length; i++)
+                        {
+                            <div class="mb-4 d-flex flex-nowrap justify-content-center">
+                                <label class="mr-3">@sValueTitle[i]</label>
+                                <input class="mr-3" type="text" id="@sValueName[i]" name="@sValueName[i]"
+                                       value="@ViewData[sValueName[i]]" disabled>
+                            </div>
+                        }
+                        try
+                        {
+                            int temp = 0010;
+                            int i = 0, round = 0;
+                            while (round <= ViewBag.Tabel.Rows.Count - 1)
+                            {
+                                if (int.Parse(ViewBag.Tabel.Rows[i]["scr_no"].ToString()) == temp)
+                                {
+                                    <div class="mb-4 d-flex flex-nowrap justify-content-center">
+                                        <label class="mr-3">@ViewBag.Tabel.Rows[i]["field_name"].ToString()</label>
+                                        <input class="mr-3" type="text" id="@ViewBag.Tabel.Rows[i]["field_code"].ToString()"
+                                               name="@ViewBag.Tabel.Rows[i]["field_code"].ToString()"
+                                               value="@ViewData[ViewBag.Tabel.Rows[i]["field_code"].ToString()]"
+                                               placeholder='請輸入 @ViewBag.Tabel.Rows[i]["field_name"].ToString()'>
+                                    </div>
+                                    temp += 10;
+                                    ++round;
+                                    i = 0;
+                                }
+                                else { i++; }
+                            }
+
+                        }
+                        catch
+                        {
+                            for (int i = 0; i <= ViewBag.Tabel.Rows.Count - 1; i++)
+                            {
+                                <div class="mb-4 d-flex flex-nowrap justify-content-center">
+                                    <label class="mr-3">@ViewBag.Tabel.Rows[i]["field_name"].ToString()</label>
+                                    <input class="mr-3" type="text" id="@ViewBag.Tabel.Rows[i]["field_code"].ToString()"
+                                           value="@ViewData[ViewBag.Tabel.Rows[i]["field_code"].ToString()]">
+                                </div>
+                            }
+                        }
+
+
+                    }
+                </div>
+
+                <div class="confirm_buttons">
+                    <input class="submit inpu ts" type="submit" name="bt_submit" value="儲存" />
+                    <a href="@Url.Action("Index", "Main")">
+                        <input class="submit inpu tb" type="button" name="b_submit" value="返回" />
+                    </a>
+                </div>
+            </div>
+
+
+            <div style="width:100%;float:right">
+                <div id="divTable" class="content_table-lg col-12 mt-4 mb-4">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <label class="col-sm-3-offset-3 no-padding-right">產品代碼</label>
+                                </th>
+                                <th>
+                                    <label class="col-sm-3-offset-3 no-padding-right">不良現象名稱</label>
+                                </th>
+                                <th>
+                                    <label class="col-sm-3-offset-3 no-padding-right">建立日期</label>
+                                </th>
+                                <th>
+                                    <label class="col-sm-3-offset-3 no-padding-right">不良數量</label>
+                                </th>
+                            </tr>
+                            @for (int i = 0; i < myCT.Get_Data().Rows.Count; i++)
+                            {
+                                DataRow Row = myCT.Get_Data().Rows[i];
+                                <tr>
+                                    <td>@Row["pro_code"].ToString()</td>
+                                    <td>@Row["ng_code"].ToString() </td>
+                                    <td>@Row["ins_date"].ToString()</td>
+                                    <td>@Row["ng_qty"].ToString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="content_table-sm col-12 mt-4 mb-4">
+                    <div>
+                        <table>
+                            <tr>
+                                <th>
+                                    <label class="col-sm-3-offset-3 no-padding-right">產品代碼</label>
+                                </th>
+                                <th>
+                                    <label class="col-sm-3-offset-3 no-padding-right">不良現象名稱</label>
+                                </th>
+                                <th>
+                                    <label class="col-sm-3-offset-3 no-padding-right">建立日期</label>
+                                </th>
+                                <th>
+                                    <label class="col-sm-3-offset-3 no-padding-right">不良數量</label>
+                                </th>
+                            </tr>
+                            @for (int i = 0; i < myCT.Get_Data().Rows.Count; i++)
+                            {
+                                DataRow Row = myCT.Get_Data().Rows[i];
+                                <tr>
+                                    <td>@Row["pro_code"].ToString()</td>
+                                    <td>@Row["ng_code"].ToString() </td>
+                                    <td>@Row["ins_date"].ToString()</td>
+                                    <td>@Row["ng_qty"].ToString()</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="content_table-sm col-12 mt-4 mb-4 other_style">
+                    @for (int i = 0; i < myCT.Get_Data().Rows.Count; i++)
+                    {
+                        DataRow Row = myCT.Get_Data().Rows[i];
+                        <div class="mt-4">
+                            <table>
+                                <tr>
+                                    <th class="column_number" rowspan="16">@(i + 1)</th>
+                                </tr>
+                                <tr>
+                                    <th>產品代碼</th>
+                                    <td>@Row["pro_code"].ToString()</td>
+                                </tr>
+                                <tr>
+                                    <th>不良現象名稱</th>
+                                    <td>@Row["ng_code"].ToString()</td>
+                                </tr>
+                                <tr>
+                                    <th>建立日期</th>
+                                    <td>@Row["ins_date"].ToString()</td>
+                                </tr>
+                                <tr>
+                                    <th>不良數量</th>
+                                    <td>@Row["ng_qty"].ToString()</td>
+                                </tr>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alert_div" class="message error" style="margin-top:25px;">
+        <label class="" id="" style="font-size:30px" color:#3968af;">
+            訊息:
+        </label>
+        <label id="alert_label" style="font-size:30px">
+
+        </label>
+    </div>
+</form>
+
+@section footer_script{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#pro_qty').focus()
+        })
+
+
+        //選擇按鍵(單選)
+        $(document).on('click', '[name=btn_select]', function () {
+            $('[name=btn_select]').each(function () {
+                $(this).removeClass()
+                $(this).addClass("submit inpu tb")
+            })
+            $(this).removeClass("submit")
+            $(this).addClass("clickactive")
+        })
+
+        //檢查輸入項
+        $(document).on('change', 'input', function () {
+            var id = $(this).attr('id')
+            var val = $(this).val()
+            Chk_Input(id, val)
+        })
+
+        //選擇按鍵(單選)
+        $(document).on('click', '[name=btn_select]', function () {
+            $('[name=btn_select]').each(function () {
+                $(this).removeClass()
+                $(this).addClass("submit inpu tb")
+            })
+            $(this).removeClass("submit")
+            $(this).addClass("clickactive")
+        })
+        //開始
+        $(document).on('click', '[name=bt_submit]', function () {
+            if (!Chk_ID()) { return false }
+
+            //if ('@*(string.IsNullOrEmpty(sMacCode))*@' == 'True') {
+            //   $('#message').html('請先變更機台')
+            //    return false
+            //}
+
+            if ($('.clickactive').length == 0) {
+
+                $('#alert_label').html('請選擇不良原因')
+
+                return false
+            }
+            post_ng_code($('.clickactive').val())
+            //Stop_Mode()
+
+        })
+
+        function post_ng_code(select) {
+            var submitData = {}
+
+            //找到畫面上所有須檢查的欄位
+            $('input').each(function () {
+                var name = $(this).attr('name')
+                var val = $(this).val()
+                submitData[name] = val
+            })
+            $('select').each(function () {
+                var name = $(this).attr('name')
+                var val = $(this).val()
+                submitData[name] = val
+            })
+            var name = "ng_code";
+            submitData[name] = select;
+
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '@Url.Action("post_ng_code")',
+                data:submitData,
+
+            })
+        }
+
+
+        //刷讀條碼 帶出對應label 目前先寫死
+        //$(document).on('change', '#per_code', function () {
+        //    $('#per_name').html(Get_Data("BDP08_0000",$(this).val(),"usr_code","usr_name"))
+        //})
+
+        //提交檢查
+        $(document).on('submit', '#ajax-contact-form', function () {
+
+            var submit = true
+            $('input').each(function () {
+                if (!Chk_Input($(this).attr('id'), $(this).val())) { submit = false }
+            })
+            if (!Chk_Submit()) { submit = false }
+            if (!submit) { return false }
+        })
+        //檢查人員上工
+        function Chk_ID() {
+            var bool = true
+            $.ajax({
+                method: 'post',
+                async: false,
+                url: '@Url.Action("Chk_ID")',
+                success: function (data) {
+                    if (data=="False") {
+                        var message = "請確認上下工人員" //訊息
+                        $('#alert_label').html(message)
+                        bool = false
+
+                        return bool
+                    }
+
+                }
+            })
+            return bool
+        }
+        //檢查輸入項
+        function Chk_Input(id, value) {
+            var bool = true
+            $.ajax({
+                method: 'post',
+                async: false,
+                url: '@Url.Action("Chk_Input")',
+                data: {
+                    pID: function () { return id; },
+                    pValue: function () { return value; },
+                },
+                success: function (data) {
+                    if (data != '') {
+                        var status = data.split("|")[0]  //狀態
+                        var message = data.split("|")[1] //訊息
+                        var isselect = data.split("|")[2]//是否反白
+
+                        if (status == "N") { bool = false }
+                        $('#alert_label').html(message)
+                        if (isselect == "True") { $('#' + id).select() }
+                    }
+                }
+            })
+            return bool
+        }
+
+            //提交判斷邏輯(回傳false的話，則無法提交)，目前先寫死
+            function Chk_Submit() {
+                var bool = true
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: '@Url.Action("Chk_Submit")',
+                    data: {
+                        //要傳的欄位
+                        "pro_qty": function () { return $('#pro_qty').val(); },
+                    },
+                    success: function (data) {
+                        if (data != '') {
+                            var status = data.split("|")[0]  //狀態
+                            var message = data.split("|")[1] //訊息
+
+                            if (status == "N") { bool = false }
+                            $('#alert_label').html(message)
+                        }
+                    }
+                })
+                return bool
+            }
+
+
+            function Get_Data(T, K, KF, F) {
+                var val = ""
+                $.ajax({
+                    method: 'post',
+                    async: false,
+                    url: '@Url.Action("Get_Data", "GetData")',
+                    data: {
+                        T: function () { return T; },
+                        K: function () { return K; },
+                        KF: function () { return KF; },
+                        F: function () { return F; },
+                    },
+                    success: function (data) {
+                        if (data != "") {
+                            val = data
+                        }
+                    }
+                })
+                return val
+            }
+
+            $(document).ready(function () {
+                $('input').addClass('enterIndex');
+                // get only input tags with class data-entry
+                textboxes = $('.enterIndex');
+                // now we check to see which browser is being used
+                $(textboxes).bind('keypress', CheckForEnter);
+            });
+            function CheckForEnter(event) {
+                if (event.keyCode == 13 && $(this).attr('type') != 'button' && $(this).attr('type') != 'submit' && $(this).attr('type') != 'textarea' && $(this).attr('type') != 'reset') {
+                    var i = $('.enterIndex').index($(this));  //現在是在第幾個
+                    var n = $('.enterIndex').length;  //總共有幾個
+                    if (i < n - 1) {
+                        if ($(this).attr('type') != 'radio')  //如果不是radio
+                        {
+                            NextDOM($('.enterIndex'), i);
+                        }
+                        else {  //如果是radio，不能focus到下一個，因為下一個可能是同樣name的radio
+                            var last_radio = $('.enterIndex').index($('.enterIndex[type=radio][name=' + $(this).attr('name') + ']:last'));
+                            NextDOM($('.enterIndex'), last_radio);
+                        }
+                    } else {
+                        $('form').submit()
+                    }
+                    return false;
+                }
+            }
+            function NextDOM(myjQueryObjects, counter) {
+                if (myjQueryObjects.eq(counter + 1)[0].disabled) {
+                    NextDOM(myjQueryObjects, counter + 1);
+                }
+                else {
+                    myjQueryObjects.eq(counter + 1).trigger('focus');
+                }
+            }
+    </script>
+}

@@ -1,0 +1,182 @@
+﻿@using MES_WORK.Controllers;
+@using MES_WORK.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //只修改Controller
+    RTR000AController myCT = new RTR000AController();
+
+    Comm comm = new Comm();
+
+    string sPrgCode = ViewContext.RouteData.Values["controller"].ToString();
+    string sAction = ViewContext.RouteData.Values["action"].ToString();
+
+
+}
+
+
+    <form id="ajax-contact-form" action=@Url.Action(sAction, sPrgCode) method="post" class="form-horizontal" role="form">
+        <div id="navigation" class="container col-12 content ">
+            <div class="content_body">
+                    <div class="content_input mb-4 d-flex flex-nowrap justify-content-center">
+                        <label class="mr-3">機台號碼</label>
+                        <input class="mr-3" type="text" id="mac_code" name="mac_code" placeholder="刷讀機台條碼" />
+
+                    </div>
+            </div>
+
+            <div class="confirm_buttons">
+                <input class="submit inpu ts" type="submit" name="bt_submit" value="儲存" />
+                <a href="@Url.Action("Index", "Main")">
+                    <input class="submit inpu tb" type="button" name="bt_submit" value="返回" />
+                </a>
+            </div>
+            <div style='clear:both;'></div>
+        </div>
+        <div id="alert_div" class="message error" style="margin-top:25px;">
+            <label class="" id="" style="font-size:30px" color:#3968af;">
+                訊息:
+            </label>
+            <label id="alert_label" style="font-size:30px">
+
+            </label>
+        </div>
+    </form>
+
+
+@section footer_script{
+    <script type="text/javascript">
+        jQuery(function ($) {
+
+            $(document).ready(function () {
+                $('#mac_code').focus()
+            })
+
+            //檢查輸入項
+            $(document).on('change', 'input', function () {
+                var id = $(this).attr('id')
+                var val = $(this).val()
+                Chk_Input(id,val)
+            })
+
+            //提交檢查
+            $(document).on('submit', '#ajax-contact-form', function () {
+                var submit = true
+                $('input').each(function () {
+                    if (!Chk_Input($(this).attr('id'), $(this).val())) { submit = false }
+                })
+                if (!Chk_Submit()) { submit = false }
+
+                if (!submit) { return false }
+            })
+
+            //檢查輸入項
+            function Chk_Input(id, value) {
+                var bool = true
+                $.ajax({
+                    method: 'post',
+                    async: false,
+                    url: '@Url.Action("Chk_Input")',
+                    data: {
+                        pID: function () { return id; },
+                        pValue: function () { return value; },
+                    },
+                    success: function (data) {
+                        if (data != '') {
+                            var status = data.split("|")[0]  //狀態
+                            var message = data.split("|")[1] //訊息
+                            var isselect = data.split("|")[2]//是否反白
+
+                            if (status == "N") { bool = false }
+                            $('#alert_label').html(message)
+                            if (isselect == "True") { $('#'+ id).select() }
+                        }
+                    }
+                })
+                return bool
+            }
+
+            //提交判斷邏輯(回傳false的話，則無法提交)，目前先寫死
+            function Chk_Submit() {
+                var bool = true
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: '@Url.Action("Chk_Submit")',
+                    data: {
+                        //要傳的欄位
+                        "mac_code": function () { return $('#mac_code').val(); },
+                    },
+                    success: function (data) {
+                        if (data != '') {
+                            var status = data.split("|")[0]  //狀態
+                            var message = data.split("|")[1] //訊息
+
+                            if (status == "N") { bool = false }
+                            $('#alert_label').html(message)
+                        }
+                    }
+                })
+                return bool
+            }
+
+
+            function Get_Data(T, K, KF, F) {
+                var val = ""
+                $.ajax({
+                    method: 'post',
+                    async: false,
+                    url: '@Url.Action("Get_Data", "GetData")',
+                    data: {
+                        T: function () { return T; },
+                        K: function () { return K; },
+                        KF: function () { return KF; },
+                        F: function () { return F; },
+                    },
+                    success: function (data) {
+                        if (data != "") {
+                            val = data
+                        }
+                    }
+                })
+                return val
+            }
+
+            $(document).ready(function () {
+                $('input').addClass('enterIndex');
+                // get only input tags with class data-entry
+                textboxes = $('.enterIndex');
+                // now we check to see which browser is being used
+                $(textboxes).bind('keypress', CheckForEnter);
+            });
+            function CheckForEnter(event) {
+                if (event.keyCode == 13 && $(this).attr('type') != 'button' && $(this).attr('type') != 'submit' && $(this).attr('type') != 'textarea' && $(this).attr('type') != 'reset') {
+                    var i = $('.enterIndex').index($(this));  //現在是在第幾個
+                    var n = $('.enterIndex').length;  //總共有幾個
+                    if (i < n - 1) {
+                        if ($(this).attr('type') != 'radio')  //如果不是radio
+                        {
+                            NextDOM($('.enterIndex'), i);
+                        }
+                        else {  //如果是radio，不能focus到下一個，因為下一個可能是同樣name的radio
+                            var last_radio = $('.enterIndex').index($('.enterIndex[type=radio][name=' + $(this).attr('name') + ']:last'));
+                            NextDOM($('.enterIndex'), last_radio);
+                        }
+                    } else {
+                        $('form').submit()
+                    }
+                    return false;
+                }
+            }
+            function NextDOM(myjQueryObjects, counter) {
+                if (myjQueryObjects.eq(counter + 1)[0].disabled) {
+                    NextDOM(myjQueryObjects, counter + 1);
+                }
+                else {
+                    myjQueryObjects.eq(counter + 1).trigger('focus');
+                }
+            }
+        })
+    </script>
+}

@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.wmsapi.com.tw/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.wmsapi.com.tw/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.wmsapi.com.tw/">
+      <s:element name="ErrorRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vErrText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vFunction_name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ErrorRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ErrorRecordResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BANCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strBAN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strReason" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BANCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="BANCheckResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="strReason" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strReason" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckIdResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="strReason" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Decimal_Round">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="C_num" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Round_Type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Decimal_RoundResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Decimal_RoundResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_PreviousYM">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Cur_yymm" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_PreviousYMResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_PreviousYMResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_NextYM">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Cur_yymm" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_NextYMResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_NextYMResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UserParaValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Par_name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Default_value" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UserParaValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserParaValueResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NumTo_RocNo2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="curNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Add_str" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NumTo_RocNo2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NumTo_RocNo2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeString">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="C_str" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="C_type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeStringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ChangeStringResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ParaValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Par_name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Sys_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prg_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Default_value" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ParaValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ParaValueResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AutoInt2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TableName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AutoInt2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AutoInt2Result" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStvExchangeRate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pStv_code" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStvExchangeRateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetStvExchangeRateResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTKCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Prg_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Tk_date" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="NeedRefresh" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Dash_code2" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="User_serial" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTKCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTKCodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rep_Zero">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="sSerialNum" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rep_ZeroResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rep_ZeroResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChkNum">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Inv_code" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChkNumResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetChkNumResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_ProTotalQty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Sto_date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Limit_str" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Pro_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Sto_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Lot_no" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Exp_date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NumberFormat" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="PassLotno" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_ProTotalQtyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Get_ProTotalQtyResult" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_One_StoQty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Cqty_type" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Cpro_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_date" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Csto_qty" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="Csto_amt" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="Is_update" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Clot_no" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Cexp_date" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_One_StoQtyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Update_One_StoQtyResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_DAFirstCost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Cpro_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_date" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_DAFirstCostResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Update_DAFirstCostResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_All_StoQty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Cqty_type" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Res_pro" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_All_StoQtyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Update_All_StoQtyResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_StoQty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Cpro_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Clot_no" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Cexp_date" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="PassCheck" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="PassLotno" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_StoQtyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Get_StoQtyResult" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_ProCost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Cpro_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Csto_date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Clot_no" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Cexp_date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Cost_kind" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_ProCostResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Get_ProCostResult" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Cal_TraQty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pSor_table" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pSor_qty" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pPro_qty" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="pWhere" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Cal_TraQtyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Cal_TraQtyResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ErrorRecordSoapIn">
+    <wsdl:part name="parameters" element="tns:ErrorRecord" />
+  </wsdl:message>
+  <wsdl:message name="ErrorRecordSoapOut">
+    <wsdl:part name="parameters" element="tns:ErrorRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="BANCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:BANCheck" />
+  </wsdl:message>
+  <wsdl:message name="BANCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:BANCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckIdSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckId" />
+  </wsdl:message>
+  <wsdl:message name="CheckIdSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="Decimal_RoundSoapIn">
+    <wsdl:part name="parameters" element="tns:Decimal_Round" />
+  </wsdl:message>
+  <wsdl:message name="Decimal_RoundSoapOut">
+    <wsdl:part name="parameters" element="tns:Decimal_RoundResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_PreviousYMSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_PreviousYM" />
+  </wsdl:message>
+  <wsdl:message name="Get_PreviousYMSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_PreviousYMResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_NextYMSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_NextYM" />
+  </wsdl:message>
+  <wsdl:message name="Get_NextYMSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_NextYMResponse" />
+  </wsdl:message>
+  <wsdl:message name="UserParaValueSoapIn">
+    <wsdl:part name="parameters" element="tns:UserParaValue" />
+  </wsdl:message>
+  <wsdl:message name="UserParaValueSoapOut">
+    <wsdl:part name="parameters" element="tns:UserParaValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="NumTo_RocNo2SoapIn">
+    <wsdl:part name="parameters" element="tns:NumTo_RocNo2" />
+  </wsdl:message>
+  <wsdl:message name="NumTo_RocNo2SoapOut">
+    <wsdl:part name="parameters" element="tns:NumTo_RocNo2Response" />
+  </wsdl:message>
+  <wsdl:message name="ChangeStringSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangeString" />
+  </wsdl:message>
+  <wsdl:message name="ChangeStringSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangeStringResponse" />
+  </wsdl:message>
+  <wsdl:message name="ParaValueSoapIn">
+    <wsdl:part name="parameters" element="tns:ParaValue" />
+  </wsdl:message>
+  <wsdl:message name="ParaValueSoapOut">
+    <wsdl:part name="parameters" element="tns:ParaValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="AutoInt2SoapIn">
+    <wsdl:part name="parameters" element="tns:AutoInt2" />
+  </wsdl:message>
+  <wsdl:message name="AutoInt2SoapOut">
+    <wsdl:part name="parameters" element="tns:AutoInt2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetStvExchangeRateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStvExchangeRate" />
+  </wsdl:message>
+  <wsdl:message name="GetStvExchangeRateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStvExchangeRateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTKCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTKCode" />
+  </wsdl:message>
+  <wsdl:message name="GetTKCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTKCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rep_ZeroSoapIn">
+    <wsdl:part name="parameters" element="tns:Rep_Zero" />
+  </wsdl:message>
+  <wsdl:message name="Rep_ZeroSoapOut">
+    <wsdl:part name="parameters" element="tns:Rep_ZeroResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetChkNumSoapIn">
+    <wsdl:part name="parameters" element="tns:GetChkNum" />
+  </wsdl:message>
+  <wsdl:message name="GetChkNumSoapOut">
+    <wsdl:part name="parameters" element="tns:GetChkNumResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_ProTotalQtySoapIn">
+    <wsdl:part name="parameters" element="tns:Get_ProTotalQty" />
+  </wsdl:message>
+  <wsdl:message name="Get_ProTotalQtySoapOut">
+    <wsdl:part name="parameters" element="tns:Get_ProTotalQtyResponse" />
+  </wsdl:message>
+  <wsdl:message name="Update_One_StoQtySoapIn">
+    <wsdl:part name="parameters" element="tns:Update_One_StoQty" />
+  </wsdl:message>
+  <wsdl:message name="Update_One_StoQtySoapOut">
+    <wsdl:part name="parameters" element="tns:Update_One_StoQtyResponse" />
+  </wsdl:message>
+  <wsdl:message name="Update_DAFirstCostSoapIn">
+    <wsdl:part name="parameters" element="tns:Update_DAFirstCost" />
+  </wsdl:message>
+  <wsdl:message name="Update_DAFirstCostSoapOut">
+    <wsdl:part name="parameters" element="tns:Update_DAFirstCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="Update_All_StoQtySoapIn">
+    <wsdl:part name="parameters" element="tns:Update_All_StoQty" />
+  </wsdl:message>
+  <wsdl:message name="Update_All_StoQtySoapOut">
+    <wsdl:part name="parameters" element="tns:Update_All_StoQtyResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_StoQtySoapIn">
+    <wsdl:part name="parameters" element="tns:Get_StoQty" />
+  </wsdl:message>
+  <wsdl:message name="Get_StoQtySoapOut">
+    <wsdl:part name="parameters" element="tns:Get_StoQtyResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_ProCostSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_ProCost" />
+  </wsdl:message>
+  <wsdl:message name="Get_ProCostSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_ProCostResponse" />
+  </wsdl:message>
+  <wsdl:message name="Cal_TraQtySoapIn">
+    <wsdl:part name="parameters" element="tns:Cal_TraQty" />
+  </wsdl:message>
+  <wsdl:message name="Cal_TraQtySoapOut">
+    <wsdl:part name="parameters" element="tns:Cal_TraQtyResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WmsApiSoap">
+    <wsdl:operation name="ErrorRecord">
+      <wsdl:input message="tns:ErrorRecordSoapIn" />
+      <wsdl:output message="tns:ErrorRecordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BANCheck">
+      <wsdl:input message="tns:BANCheckSoapIn" />
+      <wsdl:output message="tns:BANCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckId">
+      <wsdl:input message="tns:CheckIdSoapIn" />
+      <wsdl:output message="tns:CheckIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Decimal_Round">
+      <wsdl:input message="tns:Decimal_RoundSoapIn" />
+      <wsdl:output message="tns:Decimal_RoundSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_PreviousYM">
+      <wsdl:input message="tns:Get_PreviousYMSoapIn" />
+      <wsdl:output message="tns:Get_PreviousYMSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_NextYM">
+      <wsdl:input message="tns:Get_NextYMSoapIn" />
+      <wsdl:output message="tns:Get_NextYMSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UserParaValue">
+      <wsdl:input message="tns:UserParaValueSoapIn" />
+      <wsdl:output message="tns:UserParaValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NumTo_RocNo2">
+      <wsdl:input message="tns:NumTo_RocNo2SoapIn" />
+      <wsdl:output message="tns:NumTo_RocNo2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeString">
+      <wsdl:input message="tns:ChangeStringSoapIn" />
+      <wsdl:output message="tns:ChangeStringSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ParaValue">
+      <wsdl:input message="tns:ParaValueSoapIn" />
+      <wsdl:output message="tns:ParaValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AutoInt2">
+      <wsdl:input message="tns:AutoInt2SoapIn" />
+      <wsdl:output message="tns:AutoInt2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStvExchangeRate">
+      <wsdl:input message="tns:GetStvExchangeRateSoapIn" />
+      <wsdl:output message="tns:GetStvExchangeRateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTKCode">
+      <wsdl:input message="tns:GetTKCodeSoapIn" />
+      <wsdl:output message="tns:GetTKCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rep_Zero">
+      <wsdl:input message="tns:Rep_ZeroSoapIn" />
+      <wsdl:output message="tns:Rep_ZeroSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChkNum">
+      <wsdl:input message="tns:GetChkNumSoapIn" />
+      <wsdl:output message="tns:GetChkNumSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_ProTotalQty">
+      <wsdl:input message="tns:Get_ProTotalQtySoapIn" />
+      <wsdl:output message="tns:Get_ProTotalQtySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update_One_StoQty">
+      <wsdl:input message="tns:Update_One_StoQtySoapIn" />
+      <wsdl:output message="tns:Update_One_StoQtySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update_DAFirstCost">
+      <wsdl:input message="tns:Update_DAFirstCostSoapIn" />
+      <wsdl:output message="tns:Update_DAFirstCostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update_All_StoQty">
+      <wsdl:input message="tns:Update_All_StoQtySoapIn" />
+      <wsdl:output message="tns:Update_All_StoQtySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_StoQty">
+      <wsdl:input message="tns:Get_StoQtySoapIn" />
+      <wsdl:output message="tns:Get_StoQtySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_ProCost">
+      <wsdl:input message="tns:Get_ProCostSoapIn" />
+      <wsdl:output message="tns:Get_ProCostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Cal_TraQty">
+      <wsdl:input message="tns:Cal_TraQtySoapIn" />
+      <wsdl:output message="tns:Cal_TraQtySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WmsApiSoap" type="tns:WmsApiSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ErrorRecord">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/ErrorRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BANCheck">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/BANCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckId">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/CheckId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Decimal_Round">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Decimal_Round" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_PreviousYM">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Get_PreviousYM" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_NextYM">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Get_NextYM" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserParaValue">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/UserParaValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NumTo_RocNo2">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/NumTo_RocNo2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeString">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/ChangeString" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ParaValue">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/ParaValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AutoInt2">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/AutoInt2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStvExchangeRate">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/GetStvExchangeRate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTKCode">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/GetTKCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rep_Zero">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Rep_Zero" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChkNum">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/GetChkNum" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_ProTotalQty">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Get_ProTotalQty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_One_StoQty">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Update_One_StoQty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_DAFirstCost">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Update_DAFirstCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_All_StoQty">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Update_All_StoQty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_StoQty">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Get_StoQty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_ProCost">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Get_ProCost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Cal_TraQty">
+      <soap:operation soapAction="http://www.wmsapi.com.tw/Cal_TraQty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WmsApiSoap12" type="tns:WmsApiSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ErrorRecord">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/ErrorRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BANCheck">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/BANCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckId">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/CheckId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Decimal_Round">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Decimal_Round" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_PreviousYM">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Get_PreviousYM" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_NextYM">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Get_NextYM" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserParaValue">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/UserParaValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NumTo_RocNo2">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/NumTo_RocNo2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeString">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/ChangeString" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ParaValue">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/ParaValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AutoInt2">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/AutoInt2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStvExchangeRate">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/GetStvExchangeRate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTKCode">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/GetTKCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rep_Zero">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Rep_Zero" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChkNum">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/GetChkNum" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_ProTotalQty">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Get_ProTotalQty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_One_StoQty">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Update_One_StoQty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_DAFirstCost">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Update_DAFirstCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_All_StoQty">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Update_All_StoQty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_StoQty">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Get_StoQty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_ProCost">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Get_ProCost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Cal_TraQty">
+      <soap12:operation soapAction="http://www.wmsapi.com.tw/Cal_TraQty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WmsApi">
+    <wsdl:port name="WmsApiSoap" binding="tns:WmsApiSoap">
+      <soap:address location="http://localhost:8082/wms-api/wmsapi.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WmsApiSoap12" binding="tns:WmsApiSoap12">
+      <soap12:address location="http://localhost:8082/wms-api/wmsapi.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
