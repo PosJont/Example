@@ -54,4 +54,8 @@ dkms.conf
 
 
 #Customization
+.vs\
 *.config
+MES_WORK\obj\Debug\MES_WORK.csprojAssemblyReference.cache
+
+
