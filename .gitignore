@@ -57,5 +57,5 @@ dkms.conf
 .vs\
 *.config
 MES_WORK\obj\Debug\MES_WORK.csprojAssemblyReference.cache
-
+.vs\MES_WORK\v16\.suo
 
